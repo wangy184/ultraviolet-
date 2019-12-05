@@ -1,0 +1,69 @@
+
+// var colorPicker = new iro.ColorPicker("#color-picker-container", {
+//   // Set the size of the color picker
+//   width: 320,
+//   // Set the initial color to pure red
+//   color: "#f00"
+// });
+
+var questions =[
+	'What color is love?',
+	'What color is successful?',
+	'What color is pain?',
+	'What color is depression?',
+	'What color is sexual companionship?',
+	'What color is anger?'
+]
+
+var questionsLeft = questions;
+var hasStarted = false;
+
+function newQuestion() {
+  hasStarted = true;
+  var randomNumber = Math.floor(Math.random()*(questionsLeft.length));
+  document.getElementById('qDisplay').innerHTML = questionsLeft[randomNumber];
+  questionsLeft.splice(randomNumber, 1);;
+  if (questionsLeft.length == 0) {
+      alert('Thank you!');
+      // TODO: Close window properly
+      var win = window.open("about:blank", "_self");
+      win.close();
+      return false;
+    } else {
+    document.getElementById('myButton').textContent='Please select a color below to continue';
+    document.getElementById('myButton').disabled = true;
+  }
+}
+
+
+
+var colorPicker = new iro.ColorPicker(".colorPicker", {
+  width: 400,
+  color: "rgb(255, 255, 255)",
+  borderWidth: 1,
+  borderColor: "#fff",
+  handleSvg: '#handle',
+  handleOrigin: {x: -8, y: -20},
+  handleRadius: 8,
+
+});
+
+
+var values = document.getElementById("values");
+
+// https://iro.js.org/guide.html#color-change
+colorPicker.on("color:change", function(color){
+  if (hasStarted) {
+    document.getElementById('myButton').textContent='Click next to continue';
+    document.getElementById('myButton').disabled = false;
+  }
+    // Show the current color in different formats
+  // Using the selected color: https://iro.js.org/guide.html#Using-the-Selected-Color
+  main_div = document.getElementById('main');
+  main_div.parentNode.style.backgroundColor = color.hexString;
+  // values.innerHTML = [
+  //   "hex: " + color.hexString,
+  //   "rgb: " + color.rgbString,
+  //   "hsl: " + color.hslString
+  // ].join("<br>");
+});
