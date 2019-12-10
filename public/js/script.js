@@ -7,12 +7,13 @@
 // });
 
 var questions =[
-	'What color is being loved?',
-	'What color is achinve success?',
-	'What color is enduring pain?',
-	'What color is courageous?',
-	'What color is having sexual companionship?',
-	'What color is feeling anger?'
+	'To live long and prosper',
+	'To enjoy good food and beverages',
+	'To be free from fear, pain, and danger',
+	'To have sexual companionship',
+	'To live comfortably and be successful',
+	'To have a loved onces to care and protect',
+  'To receive social approval and membership',
 ]
 var totalCount = questions.length;
 var questionsLeft = questions;
@@ -20,6 +21,10 @@ var hasStarted = false;
 var userInputs = {}
 var selectedColor = null;
 var lastRespondedQuestion = null;
+
+function changeFont(element, name) {
+    element.style.fontFamily = name;
+}
 
 function newQuestion() {
   hasStarted = true;
@@ -38,13 +43,17 @@ function newQuestion() {
       win.close();
       return false;
   }
+
+  let header = document.querySelector('.original-header');
+  header.innerText = '';
   var randomNumber = Math.floor(Math.random()*(questionsLeft.length));
   document.getElementById('qDisplay').innerHTML = questionsLeft[randomNumber];
   lastRespondedQuestion = questionsLeft[randomNumber];
   questionsLeft.splice(randomNumber, 1);;
 
-  document.getElementById('myButton').textContent='Please select a color below to continue';
+  document.getElementById('myButton').textContent='Please select a color to continue';
   document.getElementById('myButton').disabled = true;
+
 }
 
 var colorPicker = new iro.ColorPicker(".colorPicker", {
@@ -56,6 +65,7 @@ var colorPicker = new iro.ColorPicker(".colorPicker", {
   handleOrigin: {x: -8, y: -20},
   handleRadius: 8,
   padding:6,
+  sliderMargin: 12,
 
   // layout: [
   //    {component:iro.ui.Slider,
@@ -79,7 +89,7 @@ colorPicker.on("color:change", function(color){
     }
     else {
       var count = totalCount - questionsLeft.length;
-      document.getElementById('myButton').textContent='>> ' + count + '/' + totalCount;
+      document.getElementById('myButton').textContent=  count + '/' + totalCount +'  '+ 'Next ';
       document.getElementById('myButton').disabled = false;
     }
 
